@@ -41,10 +41,10 @@ RSpec.describe ExchangeRateManager do
         @sample_value = 18.5432
       end
       it "defines #fetch_exchange_rate" do
-        expect(@manager.respond_to?(:fetch_exchange_rate)).to eq(true)
+        expect(@manager).to respond_to(:fetch_exchange_rate)
       end
       it "defines #insert_exchange_rate" do
-        expect(@manager.respond_to?(:insert_exchange_rate)).to eq(true)
+        expect(@manager).to respond_to(:insert_exchange_rate)
       end
       describe "#fetch_exchange_rate" do
         context "when fetching an exchange rate is successful" do
