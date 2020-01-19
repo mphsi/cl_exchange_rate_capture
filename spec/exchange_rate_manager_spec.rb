@@ -3,7 +3,17 @@ RSpec.describe ExchangeRateManager do
     expect(ExchangeRateManager::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  describe ExchangeRateManager::Manager do
+    context "its interface" do
+      before(:all) do
+        @manager = ExchangeRateManager::Manager.new
+      end
+      it "defines a fetch_exchange_rate method" do
+        expect(@manager.respond_to?(:fetch_exchange_rate)).to eq(true)
+      end
+      it "defines an insert_exchange_rate method" do
+        expect(@manager.respond_to?(:insert_exchange_rate)).to eq(true)
+      end
+    end
   end
 end
