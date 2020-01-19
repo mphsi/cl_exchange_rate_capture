@@ -40,10 +40,10 @@ RSpec.describe ExchangeRateManager do
         @day_string   = Time.now.strftime("%F")
         @sample_value = 18.5432
       end
-      it "defines an instance fetch_exchange_rate method" do
+      it "defines #fetch_exchange_rate" do
         expect(@manager.respond_to?(:fetch_exchange_rate)).to eq(true)
       end
-      it "defines an instance insert_exchange_rate method" do
+      it "defines #insert_exchange_rate" do
         expect(@manager.respond_to?(:insert_exchange_rate)).to eq(true)
       end
       describe "#fetch_exchange_rate" do
