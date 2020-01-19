@@ -47,32 +47,109 @@ RSpec.describe ExchangeRateManager do
         expect(@manager.respond_to?(:insert_exchange_rate)).to eq(true)
       end
       describe "#fetch_exchange_rate" do
-        it "returns a Hash with four required keys" do
-          fetcher = FakeFetcher.new(@sample_value, [])
-          result  = @manager.fetch_exchange_rate(
-            day: @day_string, fetcher: fetcher)
-
-          expect(result.has_key?("requested_day")).to eq(true)
-          expect(result.has_key?("exchange_rate_found")).to eq(true)
-          expect(result.has_key?("exchange_rate_value")).to eq(true)
-          expect(result.has_key?("errors")).to eq(true)
+        context "when fetching an exchange rate is successful" do
+          before(:all) do
+            fetcher = FakeFetcher.new(@sample_value, [])
+            @result = @manager.fetch_exchange_rate(
+              day: @day_string, fetcher: fetcher)
+          end
+          it "returns a Hash with at least three required keys" do
+            expect(@result).to include("requested_day")
+            expect(@result).to include("exchange_rate_found")
+            expect(@result).to include("exchange_rate_value")
+          end
+          context "the Hash ouput must contain" do
+            it "the requested day" do
+              expect(@result["requested_day"]).to eq(@day_string)
+            end
+            it "true as a flag for having found the exchange rate" do
+              expect(@result["exchange_rate_found"]).to eq(true)
+            end
+            it "the exchange rate value for the day" do
+              expect(@result["exchange_rate_value"]).not_to be_nil
+              expect(@result["exchange_rate_value"].class).to eq(Float)
+            end
+          end
         end
-        context "when fetching an exchange rate is successful"
-        context "when fetching an exchange rate is unsuccessful"
+        context "when fetching an exchange rate is unsuccessful" do
+          before(:all) do
+            fetcher = FakeFetcher.new(nil, ["Something happened"])
+            @result = @manager.fetch_exchange_rate(
+              day: @day_string, fetcher: fetcher)
+          end
+          it "returns a Hash with at least four required keys" do
+            expect(@result).to include("requested_day")
+            expect(@result).to include("exchange_rate_found")
+            expect(@result).to include("exchange_rate_value")
+            expect(@result).to include("errors")
+          end
+          context "the Hash ouput must contain" do
+            it "the requested day" do
+              expect(@result["requested_day"]).to eq(@day_string)
+            end
+            it "false as a flag for not having found the exchange rate" do
+              expect(@result["exchange_rate_found"]).to eq(false)
+            end
+            it "nil as the exchange rate value for the day" do
+              expect(@result["exchange_rate_value"]).to be_nil
+            end
+            it "a non empty errors array" do
+              expect(@result["errors"].size).to be > 0
+            end
+          end
+        end
       end
       describe "#insert_exchange_rate" do
-        it "returns a Hash with four required keys" do
-          inserter = FakeInserter.new(true, [])
-          result   = @manager.insert_exchange_rate(
-            day:@day_string, value: @sample_value, inserter: inserter)
-
-          expect(result.has_key?("requested_day")).to eq(true)
-          expect(result.has_key?("exchange_rate_value")).to eq(true)
-          expect(result.has_key?("exchange_rate_inserted")).to eq(true)
-          expect(result.has_key?("errors")).to eq(true)
+        context "when inserting an exchange rate is successful" do
+          before(:all) do
+            inserter = FakeInserter.new(true, [])
+            @result  = @manager.insert_exchange_rate(
+              day: @day_string, value: @sample_value, inserter: inserter)
+          end
+          it "returns a Hash with at least three required keys" do
+            expect(@result).to include("requested_day")
+            expect(@result).to include("exchange_rate_value")
+            expect(@result).to include("exchange_rate_inserted")
+          end
+          context "the Hash ouput must contain" do
+            it "the requested day" do
+              expect(@result["requested_day"]).to eq(@day_string)
+            end
+            it "the requested exchange rate to insert" do
+              expect(@result["exchange_rate_value"]).to eq(@sample_value)
+            end
+            it "true as a flag for having inserted the exchange rate" do
+              expect(@result["exchange_rate_inserted"]).to eq(true)
+            end
+          end
         end
-        context "when inserting an exchange rate is successful"
-        context "when inserting an exchange rate is unsuccessful"
+        context "when inserting an exchange rate is unsuccessful" do
+          before(:all) do
+            inserter = FakeInserter.new(false, ["Something happened"])
+            @result  = @manager.insert_exchange_rate(
+              day:@day_string, value: @sample_value, inserter: inserter)
+          end
+          it "returns a Hash with at least four required keys" do
+            expect(@result).to include("requested_day")
+            expect(@result).to include("exchange_rate_value")
+            expect(@result).to include("exchange_rate_inserted")
+            expect(@result).to include("errors")
+          end
+          context "the Hash ouput must contain" do
+            it "the requested day" do
+              expect(@result["requested_day"]).to eq(@day_string)
+            end
+            it "the requested exchange rate to insert" do
+              expect(@result["exchange_rate_value"]).to eq(@sample_value)
+            end
+            it "false as a flag for having inserted the exchange rate" do
+              expect(@result["exchange_rate_inserted"]).to eq(false)
+            end
+            it "a non empty errors array" do
+              expect(@result["errors"].size).to be > 0
+            end
+          end
+        end
       end
     end
   end
