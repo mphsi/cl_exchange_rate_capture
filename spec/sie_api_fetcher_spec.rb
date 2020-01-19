@@ -1,3 +1,5 @@
+require "./env_variables"
+
 RSpec.describe ExchangeRateManager::SIEApiFetcher do
   def new_fetcher
     ExchangeRateManager::SIEApiFetcher.new

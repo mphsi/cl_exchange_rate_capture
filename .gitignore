@@ -9,3 +9,6 @@
 
 # rspec failure tracking
 .rspec_status
+
+# env variables definition file
+env_variables.rb
