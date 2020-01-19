@@ -9,7 +9,7 @@ module ExchangeRateManager
 
       return {
         "requested_day" => day,
-        "exchange_rate_found" => (true.nil? ? false : true),
+        "exchange_rate_found" => (value.nil? ? false : true),
         "exchange_rate_value" => (value.nil? ? nil : value.to_f),
         "errors" => fetcher.errors
       }
