@@ -1,9 +1,12 @@
 module ExchangeRateManager
   class DBInserter
-    def initialize
+    attr_reader :connection, :errors
+    def initialize(connection = ExchangeRateManager::DBConnection.new)
+      @connection = connection
+      @errors     = []
     end
 
-    def test_connection
+    def connection_works
       return true
     end
 
