@@ -1,7 +1,7 @@
 require "pg"
 
 module ExchangeRateManager
-  class Connection
+  class DBConnection
     attr_reader :connection
     def new
       @connection = PG.connect(
