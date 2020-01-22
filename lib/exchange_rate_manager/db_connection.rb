@@ -13,7 +13,11 @@ module ExchangeRateManager
     end
 
     def exec(query_string = "")
-      @connection.exec(query_string)
+      begin
+        @connection.exec(query_string)
+      rescue
+        return nil
+      end
     end
 
     def close
