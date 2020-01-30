@@ -3,7 +3,7 @@ require "pg"
 module ExchangeRateManager
   class DBConnection
     attr_reader :connection
-    def new
+    def initialize()
       @connection = PG.connect(
         host: ENV['HOST'],
         dbname: ENV['DATBASE'],
