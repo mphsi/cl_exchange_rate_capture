@@ -12,5 +12,9 @@ module ExchangeRateManager
         return nil
       end
     end
+
+    def error_message
+      "Invalid day"
+    end
   end
 end

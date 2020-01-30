@@ -16,7 +16,7 @@ module ExchangeRateManager
       @errors = []
 
       if (@parsed_day = @date_parser.parse_date(day)).nil?
-        @errors << invalid_day_error_message
+        @errors << @date_parser.error_message
         return nil
       end
 
@@ -24,10 +24,6 @@ module ExchangeRateManager
     end
 
     private
-
-    def invalid_day_error_message
-      "Invalid day"
-    end
 
     def unexpected_error_calling_api_message
       "SIEApiFetcher: An error ocurred while calling the API"
