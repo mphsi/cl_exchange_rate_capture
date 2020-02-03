@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in exchange_rate_manager.gemspec
+# Specify your gem's dependencies in exchange_rate_capture.gemspec
 gemspec
 
 gem "rake", "~> 12.0"

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    exchange_rate_manager (0.1.0)
+    exchange_rate_capture (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -32,7 +32,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  exchange_rate_manager!
+  exchange_rate_capture!
   pg
   pry
   rake (~> 12.0)

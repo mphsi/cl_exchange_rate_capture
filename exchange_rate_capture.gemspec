@@ -1,8 +1,8 @@
-require_relative 'lib/exchange_rate_manager/version'
+require_relative 'lib/exchange_rate_capture/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "exchange_rate_manager"
-  spec.version       = ExchangeRateManager::VERSION
+  spec.name          = "exchange_rate_capture"
+  spec.version       = ExchangeRateCapture::VERSION
   spec.authors       = ["Paul Hernández"]
   spec.email         = ["mpaul.hernandez@gmail.com"]
 
