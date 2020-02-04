@@ -1,5 +1,3 @@
-require "./env_variables"
-
 RSpec.describe ExchangeRateCapture::DBInserter do
   def connection
     ExchangeRateCapture::DBConnection.new
