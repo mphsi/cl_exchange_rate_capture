@@ -17,16 +17,32 @@ module ExchangeRateCapture
 
     def call
       begin
-        @connection.exec(%{
-          INSERT INTO tipo_cambios(
-            nombre, precio, created_at, updated_at
-          ) VALUES(
-            'USD/MXN', #{value}::numeric, '#{day}'::date, '#{day}'::date
-          ) RETURNING *;
-        }).first
+        if (existing_record = get_record_in_day).nil?
+          return insert_record
+        else
+          return existing_record
+        end
       rescue
         return nil
       end
+    end
+
+    def get_record_in_day
+      @connection.exec(%{
+        SELECT * FROM tipo_cambios
+        WHERE nombre = 'USD/MXN'
+        AND created_at = '#{day}'::date;
+      }).first
+    end
+
+    def insert_record
+      @connection.exec(%{
+        INSERT INTO tipo_cambios(
+          nombre, precio, created_at, updated_at
+        ) VALUES(
+          'USD/MXN', #{value}::numeric, '#{day}'::date, '#{day}'::date
+        ) RETURNING *;
+      }).first
     end
   end
 end
