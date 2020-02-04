@@ -4,7 +4,6 @@ require './lib/exchange_rate_capture'
 
 def lambda_handler(event:, context:)
   day = current_day
-  puts "day: #{day}"
 
   new_capturist.capture(day: day)
 
