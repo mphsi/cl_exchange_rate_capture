@@ -1,5 +1,4 @@
 require "net/http"
-require "./env_variables"
 
 module ExchangeRateCapture
   class ApiFetcher
@@ -9,11 +8,11 @@ module ExchangeRateCapture
 
     # replace with envvar
     SIE_ENDPOINT = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF60653/datos"
-    API_TOKEN    = ENV["API_TOKEN"]
 
-    attr_reader :day
+    attr_reader :day, :api_token
     def initialize(day)
-      @day = day
+      @day       = day
+      @api_token = ENV["API_TOKEN"]
     end
 
     # SIE API response is expected to be like this:
@@ -40,7 +39,7 @@ module ExchangeRateCapture
 
     def request_uri(start_day_str, end_day_str)
       uri = URI(SIE_ENDPOINT + "/#{start_day_str}/#{end_day_str}")
-      uri.query = URI.encode_www_form({token: API_TOKEN})
+      uri.query = URI.encode_www_form({token: api_token})
       return uri
     end
   end
