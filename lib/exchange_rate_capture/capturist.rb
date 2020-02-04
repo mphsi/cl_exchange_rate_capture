@@ -33,10 +33,10 @@ module ExchangeRateCapture
       return nil unless @errors.empty?
 
       if DayValidator.call(day) == false
-        message = "day #{day} is considered valid"
-      else
         message = "day #{day} is considered not valid"
         append_error(message)
+      else
+        message = "day #{day} is considered valid"
       end
 
       log_event(event: message)
@@ -87,13 +87,13 @@ module ExchangeRateCapture
       return nil unless @errors.empty?
 
       if PersistedRecordValidator.call(record) == false
-        message = "value #{value} for day #{day} was not persisted"
+        message = "record was not persisted"
         append_error(message)
       else
-        message = "value #{value} for day #{day} was persisted"
+        message = "record was persisted"
       end
 
-      log_event(event: message)
+      log_event(event: message, data: record.to_json)
     end
 
     def log_attempt_end(day)
