@@ -1,5 +1,15 @@
 # ExchangeRateCapture
 
+The code in this repository is structured as a Ruby gem. However it is intended to be used as the source code repository for an AWS Lambda function written in Ruby.
+
+To generate the .zip package for uploading on AWS Lambda console run:
+
+~~~
+zip -r function.zip lambda_function.rb ./lib/
+~~~
+
+...
+
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/exchange_rate_capture`. To experiment with that code, run `bin/console` for an interactive prompt.
 
 TODO: Delete this and the text above, and describe your gem
