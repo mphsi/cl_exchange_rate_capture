@@ -106,8 +106,8 @@ module ExchangeRateCapture
       @errors << message
     end
 
-    def log_event(event_name, event_data)
-      logger.log(attempt: attempt_id, event: event_name, data: event_data)
+    def log_event(event:, data: nil)
+      logger.log(attempt: attempt_id, event: event, data: data)
     end
   end
 end
