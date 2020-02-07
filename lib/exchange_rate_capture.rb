@@ -4,6 +4,8 @@ require_relative "exchange_rate_capture/day_validator"
 require_relative "exchange_rate_capture/value_validator"
 require_relative "exchange_rate_capture/persisted_record_validator"
 require_relative "exchange_rate_capture/api_fetcher"
+require_relative "exchange_rate_capture/database_connections_getter"
+require_relative "exchange_rate_capture/inserter"
 require_relative "exchange_rate_capture/db_inserter"
 require_relative "exchange_rate_capture/capturist"
 
