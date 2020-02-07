@@ -1,8 +1,6 @@
 module ExchangeRateCapture
   class Logger
-    attr_reader :db_connection
-    def initialize(db_connection: nil)
-      @db_connection = db_connection
+    def initialize()
     end
 
     def log(attempt:, event:, data: nil)
