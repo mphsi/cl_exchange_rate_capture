@@ -3,12 +3,12 @@ require "pg"
 module ExchangeRateCapture
   class DBConnection
     attr_reader :connection
-    def initialize()
+    def initialize(credentials = {})
       @connection = PG.connect(
-        host: ENV['HOST'],
-        dbname: ENV['DATBASE'],
-        user: ENV['USERNAME'],
-        password: ENV['PASSWORD']
+        host: credentials["host"],
+        dbname: credentials["dbname"],
+        user: credentials["user"],
+        password: credentials["password"]
       )
     end
 
