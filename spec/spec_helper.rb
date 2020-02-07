@@ -1,6 +1,7 @@
 require "bundler/setup"
 require "exchange_rate_capture"
 require "./env_variables"
+require "pry"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
