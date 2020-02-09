@@ -20,7 +20,7 @@ module ExchangeRateCapture
 
       begin
         return db_connections.map do |db_connection|
-          append_connection_details(
+          map_value_into_detailed_value(
             DBInserter.call(value, day, db_connection),
             db_connection
           )
@@ -32,14 +32,14 @@ module ExchangeRateCapture
 
     private
 
-    def append_connection_details(record, connection)
-      if record["id"].nil?
-        record["_status"] = "not inserted"
-      else
-        record["_status"] = "inserted"
-      end
-      record["_database_name"] = connection.database_name
-      record
+    def map_value_into_detailed_value(record, connection)
+      status = record.nil? || record["id"].nil? ? "not inserted" : "inserted"
+
+      {
+        "status" => status,
+        "database_name" => connection.database_name,
+        "database_record" => record
+      }
     end
   end
 end
