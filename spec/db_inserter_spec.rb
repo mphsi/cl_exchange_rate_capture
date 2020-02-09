@@ -1,6 +1,15 @@
 RSpec.describe ExchangeRateCapture::DBInserter do
+  def test_db_credentials
+    {
+      "host" => ENV['TEST_HOST'],
+      "dbname" => ENV['TEST_DATBASE'],
+      "user" => ENV['TEST_USERNAME'],
+      "password" => ENV['TEST_PASSWORD']
+    }
+  end
+
   def connection
-    ExchangeRateCapture::DBConnection.new
+    ExchangeRateCapture::DBConnection.new(test_db_credentials)
   end
 
   def sample_day
