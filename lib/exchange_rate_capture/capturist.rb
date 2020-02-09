@@ -78,8 +78,8 @@ module ExchangeRateCapture
         ]
       else
         log_messages = records.map do |record|
-          "value #{value} was #{record["_status"]} for " \
-          "day #{day} @#{record["_database_name"]}"
+          "value #{value} was #{record["status"]} for " \
+          "day #{day} @#{record["database_name"]}"
         end
       end
 
@@ -92,12 +92,12 @@ module ExchangeRateCapture
 
       records.each do |record|
         if PersistedRecordValidator.call(record) == false
-          message = "record was not persisted @#{record["database"]}"
+          message = "record was not persisted @#{record["database_name"]}"
           append_error(message)
         else
-          message = "record was persisted @#{record["database"]}"
+          message = "record was persisted @#{record["database_name"]}"
         end
-        log_event(event: message, data: record.to_json)
+        log_event(event: message, data: record["database_record"].to_json)
       end
     end
 
