@@ -74,12 +74,12 @@ module ExchangeRateCapture
 
       if (records = Inserter.call(value, day)).empty?
         log_messages = [
-          "value #{value} was not inserted for day #{day} @ any database"
+          "no attempt for inserting value #{value} for day #{day} was made"
         ]
       else
         log_messages = records.map do |record|
-          "value #{value} was #{record["status"]} for " \
-          "day #{day} @#{record["database_name"]}"
+          "an attempt for inserting value #{value} for day #{day} was made " \
+          "@ database #{record["database_name"]}"
         end
       end
 
