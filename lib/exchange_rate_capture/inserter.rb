@@ -39,6 +39,7 @@ module ExchangeRateCapture
         record["_status"] = "inserted"
       end
       record["_database_name"] = connection.database_name
+      record
     end
   end
 end
