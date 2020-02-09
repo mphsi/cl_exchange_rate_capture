@@ -22,12 +22,18 @@ module ExchangeRateCapture
     private
 
     def fetch_credentials_from_env_vars
-      [{
-        "host" => ENV['HOST'],
-        "dbname" => ENV['DATBASE'],
-        "user" => ENV['USERNAME'],
-        "password" => ENV['PASSWORD']
-      }]
+      begin
+        JSON.parse(credentials_array).map do |creds|
+          {
+            "host" => creds["host"],
+            "dbname" => creds["database"],
+            "user" => creds["username"],
+            "password" => creds["password"]
+          }
+        end
+      rescue
+        return []
+      end
     end
   end
 end
