@@ -20,11 +20,25 @@ module ExchangeRateCapture
 
       begin
         return db_connections.map do |db_connection|
-          DBInserter.call(value, day, db_connection)
+          append_connection_details(
+            DBInserter.call(value, day, db_connection),
+            db_connection
+          )
         end
       rescue
         return []
       end
+    end
+
+    private
+
+    def append_connection_details(record, connection)
+      if record["id"].nil?
+        record["_status"] = "not inserted"
+      else
+        record["_status"] = "inserted"
+      end
+      record["_database_name"] = connection.database_name
     end
   end
 end
