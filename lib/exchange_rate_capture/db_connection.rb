@@ -2,7 +2,7 @@ require "pg"
 
 module ExchangeRateCapture
   class DBConnection
-    attr_reader :connection
+    attr_reader :connection, :database_name
     def initialize(credentials = {})
       @connection = PG.connect(
         host: credentials["host"],
@@ -10,6 +10,7 @@ module ExchangeRateCapture
         user: credentials["user"],
         password: credentials["password"]
       )
+      @database_name = credentials["dbname"] || "-"
     end
 
     def exec(query_string = "")
