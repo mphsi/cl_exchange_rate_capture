@@ -78,8 +78,8 @@ module ExchangeRateCapture
         ]
       else
         log_messages = records.map do |record|
-          "value #{value} was #{record["estatus"]} for " \
-          "day #{day} @#{record["database"]}"
+          "value #{value} was #{record["_status"]} for " \
+          "day #{day} @#{record["_database"]}"
         end
       end
 
