@@ -15,8 +15,8 @@ module ExchangeRateCapture
       check_if_day_is_valid(day)
       value = ask_fetcher_for_value(day)
       check_if_value_is_valid(value)
-      record = ask_inserter_for_inserting_value_in_day(value, day)
-      check_if_value_was_persisted(record)
+      records = ask_inserter_for_inserting_value_in_day(value, day)
+      check_if_value_was_persisted(records)
 
       log_attempt_end(day)
     end
@@ -72,28 +72,33 @@ module ExchangeRateCapture
     def ask_inserter_for_inserting_value_in_day(value, day)
       return nil unless @errors.empty?
 
-      if (record = DBInserter.call(value, day)).nil?
-        message = "value #{value} was not inserted for day #{day}"
-        append_error(message)
+      if (records = Inserter.call(value, day)).empty?
+        log_messages = [
+          "value #{value} was not inserted for day #{day} @ any database"
+        ]
       else
-        message = "value #{value} was inserted for day #{day}"
+        log_messages = records.map do |record|
+          "value #{value} was #{record["estatus"]} for " \
+          "day #{day} @#{record["database"]}"
+        end
       end
 
-      log_event(event: message)
-      return record
+      log_messages.each{ |message| log_event(event: message) }
+      return records
     end
 
-    def check_if_value_was_persisted(record)
+    def check_if_value_was_persisted(records)
       return nil unless @errors.empty?
 
-      if PersistedRecordValidator.call(record) == false
-        message = "record was not persisted"
-        append_error(message)
-      else
-        message = "record was persisted"
+      records.each do |record|
+        if PersistedRecordValidator.call(record) == false
+          message = "record was not persisted @#{record["database"]}"
+          append_error(message)
+        else
+          message = "record was persisted @#{record["database"]}"
+        end
+        log_event(event: message, data: record.to_json)
       end
-
-      log_event(event: message, data: record.to_json)
     end
 
     def log_attempt_end(day)
