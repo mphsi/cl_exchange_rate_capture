@@ -20,11 +20,9 @@ RSpec.describe ExchangeRateCapture::Inserter do
       it "returns an array with a value for each connection" do
         expect(@values.size).to eq(@conns.size)
       end
-      it "appends a status, database_name and database_record keys" +
-         "to each returned value" do
-        expect(@values).to all(include(
-          "status", "database_name", "database_record"
-        ))
+      it "maps each insertion result into a hash containing a " +
+         "database_name and database_record keys" do
+        expect(@values).to all(include("database_name", "database_record"))
       end
     end
   end
