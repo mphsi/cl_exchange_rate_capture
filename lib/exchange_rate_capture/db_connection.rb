@@ -10,7 +10,7 @@ module ExchangeRateCapture
         user: credentials["user"],
         password: credentials["password"]
       )
-      @database_name = credentials["dbname"] || "-"
+      @database_name = credentials["host"] || "-"
     end
 
     def exec(query_string = "")
