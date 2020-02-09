@@ -15,8 +15,8 @@ module ExchangeRateCapture
       check_if_day_is_valid(day)
       value = ask_fetcher_for_value(day)
       check_if_value_is_valid(value)
-      records = ask_inserter_for_inserting_value_in_day(value, day)
-      check_if_value_was_persisted(records)
+      results = ask_inserter_for_inserting_value_in_day(value, day)
+      check_if_values_were_persisted(results)
 
       log_attempt_end(day)
     end
@@ -87,17 +87,17 @@ module ExchangeRateCapture
       return records
     end
 
-    def check_if_value_was_persisted(records)
+    def check_if_values_were_persisted(results)
       return nil unless @errors.empty?
 
-      records.each do |record|
-        if PersistedRecordValidator.call(record) == false
-          message = "record was not persisted @#{record["database_name"]}"
+      results.each do |result|
+        if PersistedRecordValidator.call(result["database_record"]) == false
+          message = "record was not persisted @ database #{result["database_name"]}"
           append_error(message)
         else
-          message = "record was persisted @#{record["database_name"]}"
+          message = "record was persisted @ database #{result["database_name"]}"
         end
-        log_event(event: message, data: record["database_record"].to_json)
+        log_event(event: message, data: result["database_record"].to_json)
       end
     end
 
